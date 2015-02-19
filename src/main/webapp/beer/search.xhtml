@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{beerBean.page}'/>
+		<f:event type="preRenderView" listener='#{beerBean.paginate}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Beer entities"/>
+
+	<ui:define name="header">
+		Beer
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Beer entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="beerBeanExampleName" value="Name:"/>
+						<h:panelGroup>
+							<h:inputText id="beerBeanExampleName" value="#{beerBean.example.name}"/>
+							<h:message for="beerBeanExampleName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="beerBeanExampleTaste" value="Taste:"/>
+						<h:panelGroup>
+							<h:inputText id="beerBeanExampleTaste" value="#{beerBean.example.taste}"/>
+							<h:message for="beerBeanExampleTaste" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="beerBeanExampleScore" value="Score:"/>
+						<h:panelGroup>
+							<h:inputText id="beerBeanExampleScore" value="#{beerBean.example.score}"/>
+							<h:message for="beerBeanExampleScore" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action='#{beerBean.search}' styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action='#{beerBean.create}' styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="beerBeanPageItems" styleClass="data-table" value="#{beerBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Name"/>
+					</f:facet>
+					<h:link outcome="/beer/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemName" value="#{_item.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Taste"/>
+					</f:facet>
+					<h:link outcome="/beer/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemTaste" value="#{_item.taste}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Score"/>
+					</f:facet>
+					<h:link outcome="/beer/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemScore" value="#{_item.score}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value='#{beerBean}'/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>
